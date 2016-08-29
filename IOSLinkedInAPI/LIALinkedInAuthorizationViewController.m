@@ -56,9 +56,9 @@ BOOL handlingRedirectURL;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
 	if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7")) {
-		
+
 		self.edgesForExtendedLayout = UIRectEdgeNone;
 	}
 
@@ -125,6 +125,7 @@ BOOL handlingRedirectURL;
 
 - (NSString *)extractGetParameter: (NSString *) parameterName fromURLString:(NSString *)urlString {
     NSMutableDictionary *mdQueryStrings = [[NSMutableDictionary alloc] init];
+    urlString = [[urlString componentsSeparatedByString:@"#"] objectAtIndex:0];
     urlString = [[urlString componentsSeparatedByString:@"?"] objectAtIndex:1];
     for (NSString *qs in [urlString componentsSeparatedByString:@"&"]) {
         [mdQueryStrings setValue:[[[[qs componentsSeparatedByString:@"="] objectAtIndex:1]
@@ -141,8 +142,8 @@ BOOL handlingRedirectURL;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-	
-	
+
+
 	/*fix for the LinkedIn Auth window - it doesn't scale right when placed into
 	 a webview inside of a form sheet modal. If we transform the HTML of the page
 	 a bit, and fix the viewport to 540px (the width of the form sheet), the problem
@@ -154,7 +155,7 @@ BOOL handlingRedirectURL;
 		@"meta.setAttribute( 'name', 'viewport' ); "
 		@"meta.setAttribute( 'content', 'width = 540px, initial-scale = 1.0, user-scalable = yes' ); "
 		@"document.getElementsByTagName('head')[0].appendChild(meta)";
-		
+
 		[webView stringByEvaluatingJavaScriptFromString: js];
 	}
 }
